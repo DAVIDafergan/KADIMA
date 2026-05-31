@@ -36,13 +36,13 @@ export function Navbar({ currentPage, setCurrentPage }: { currentPage: 'home' | 
     { id: 'gallery', label: 'Gallery' }
   ];
 
-  const desktopText = isScrolled ? 'text-primary/80 hover:text-primary' : 'text-white/85 hover:text-white';
+  const desktopText = isScrolled ? 'text-primary/70 hover:text-primary' : 'text-white/60 hover:text-white/90';
 
   return (
     <nav
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+      className={`fixed top-0 w-full z-50 transition-all duration-700 ${
         isScrolled
-          ? 'bg-bg-light/92 backdrop-blur-xl border-b border-primary/10 shadow-[0_10px_24px_rgba(18,10,26,0.08)]'
+          ? 'bg-bg-light/80 backdrop-blur-2xl border-b border-primary/10 shadow-[0_10px_24px_rgba(18,10,26,0.08)]'
           : 'bg-transparent'
       }`}
     >
@@ -73,7 +73,7 @@ export function Navbar({ currentPage, setCurrentPage }: { currentPage: 'home' | 
                   setCurrentPage('home');
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className={`font-accent uppercase tracking-[0.18em] text-xs transition-colors ${desktopText}`}
+                className={`uppercase tracking-[0.1em] text-xs font-light transition-colors ${desktopText}`}
               >
                 Back To Home
               </button>
@@ -82,7 +82,7 @@ export function Navbar({ currentPage, setCurrentPage }: { currentPage: 'home' | 
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`font-accent uppercase tracking-[0.18em] text-xs transition-colors ${desktopText}`}
+                    className={`navbar-link uppercase tracking-[0.08em] text-xs font-light transition-colors ${desktopText}`}
                 >
                   {item.label}
                 </button>
@@ -93,7 +93,11 @@ export function Navbar({ currentPage, setCurrentPage }: { currentPage: 'home' | 
               href="https://my.israelgives.org/en/fundme/kadima_concierge"
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-accent text-primary px-6 py-2.5 font-accent font-semibold tracking-[0.18em] rounded-sm hover:bg-[#f1c36f] transition-colors text-[11px] uppercase border border-[#d8a956]"
+              className={`px-6 py-2.5 font-accent font-semibold tracking-[0.18em] rounded-sm transition-all duration-700 text-[11px] uppercase border ${
+                isScrolled
+                  ? 'bg-accent text-primary border-[#d8a956] hover:bg-[#f1c36f]'
+                  : 'bg-transparent text-white border-white/35 hover:border-accent/60 hover:text-accent'
+              }`}
             >
               DONATE NOW
             </a>
