@@ -1,126 +1,306 @@
+import { useEffect, useRef, useState } from 'react';
+import { motion, useInView, AnimatePresence } from 'motion/react';
+import { ArrowRight } from 'lucide-react';
 
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400&family=Source+Sans+3:wght@300;400&family=Oswald:wght@400;600&display=swap');
-  #hs-root { background:#05040a; border-radius:12px; overflow:hidden; font-family:'Source Sans 3',sans-serif; position:relative; min-height:520px; display:flex; flex-direction:column; }
-  #hs-bg { position:absolute; inset:0; transition:background 1.4s ease; pointer-events:none; }
-  #hs-grain { position:absolute; inset:0; opacity:.04; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); background-size:180px; mix-blend-mode:overlay; }
-  #hs-eyebrow { text-align:center; padding:28px 0 0; font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.42em; color:rgba(229,178,93,.55); text-transform:uppercase; position:relative; z-index:2; }
-  #hs-stage { display:flex; align-items:center; justify-content:center; flex:1; gap:0; padding:16px 32px 8px; position:relative; z-index:2; }
-  #hs-text { width:48%; padding-right:32px; }
-  #hs-helmet-area { width:52%; display:flex; align-items:center; justify-content:center; position:relative; min-height:300px; }
-  #hs-num { font-family:'Playfair Display',serif; font-weight:900; font-size:80px; line-height:1; letter-spacing:-.03em; opacity:.14; transition:color .8s; margin-bottom:12px; }
-  #hs-line { height:1px; margin-bottom:16px; transition:background .8s; }
-  #hs-heb { font-size:15px; color:rgba(255,255,255,.22); margin-bottom:6px; letter-spacing:.06em; }
-  #hs-title { font-family:'Playfair Display',serif; font-weight:900; font-size:clamp(22px,3.5vw,38px); color:#fff; line-height:1.05; letter-spacing:-.02em; margin-bottom:12px; }
-  #hs-meta { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
-  #hs-meta-line { width:20px; height:1px; background:rgba(229,178,93,.4); }
-  #hs-meta-txt { font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:.28em; color:rgba(255,255,255,.38); text-transform:uppercase; }
-  #hs-desc { font-size:13px; font-weight:300; color:rgba(255,255,255,.58); line-height:1.7; max-width:340px; margin-bottom:22px; }
-  #hs-progress { display:flex; gap:6px; margin-bottom:20px; }
-  .hs-bar { height:2px; flex:1; background:rgba(255,255,255,.1); border-radius:2px; overflow:hidden; cursor:pointer; }
-  .hs-bar-fill { height:100%; width:0%; border-radius:2px; }
-  #hs-cta { font-family:'Oswald',sans-serif; font-size:10px; letter-spacing:.24em; text-transform:uppercase; color:rgba(255,255,255,.38); background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:8px; padding:0; transition:color .3s; }
-  #hs-cta:hover { color:rgba(229,178,93,.9); }
-  #hs-img-wrap { position:relative; max-width:300px; width:100%; }
-  #hs-helmet-img { width:100%; height:auto; object-fit:contain; position:relative; z-index:2; transition:opacity .3s; filter:drop-shadow(0 30px 60px rgba(0,0,0,.75)); }
-  #hs-shadow { position:absolute; bottom:-4%; left:15%; right:15%; height:10%; border-radius:50%; filter:blur(18px); z-index:1; transition:background .8s; }
-  #hs-spotlight { position:absolute; inset:0; pointer-events:none; border-radius:50%; transition:background 1.4s; }
-  #hs-caption { text-align:center; padding:0 0 20px; font-family:'Oswald',sans-serif; font-size:9px; letter-spacing:.38em; color:rgba(255,255,255,.18); text-transform:uppercase; position:relative; z-index:2; }
-  #hs-arrows { position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; padding:0 4px; pointer-events:none; z-index:5; }
-  .hs-arrow { width:32px; height:32px; border-radius:50%; border:.5px solid rgba(255,255,255,.15); background:rgba(0,0,0,.3); display:flex; align-items:center; justify-content:center; cursor:pointer; pointer-events:all; transition:border-color .3s,background .3s; }
-  .hs-arrow:hover { border-color:rgba(255,255,255,.35); background:rgba(255,255,255,.08); }
-  .hs-fade { transition:opacity .7s, transform .7s; }
-  .hs-out-left { opacity:0; transform:translateX(-40px) rotate(-8deg); }
-  .hs-out-right { opacity:0; transform:translateX(40px) rotate(8deg); }
-  .hs-in { opacity:1; transform:translateX(0) rotate(0deg); }
-</style>
-<div id="hs-root">
-  <div id="hs-bg"></div>
-  <div id="hs-grain"></div>
-  <div id="hs-eyebrow">Helmets 4 Chayalim — The Collection</div>
-  <div id="hs-stage">
-    <div id="hs-text">
-      <div id="hs-num">01</div>
-      <div id="hs-line"></div>
-      <div id="hs-heb"></div>
-      <div id="hs-title"></div>
-      <div id="hs-meta"><div id="hs-meta-line"></div><div id="hs-meta-txt"></div></div>
-      <div id="hs-desc"></div>
-      <div id="hs-progress">
-        <div class="hs-bar" data-i="0"><div class="hs-bar-fill" id="bar0"></div></div>
-        <div class="hs-bar" data-i="1"><div class="hs-bar-fill" id="bar1"></div></div>
-        <div class="hs-bar" data-i="2"><div class="hs-bar-fill" id="bar2"></div></div>
-      </div>
-      <button id="hs-cta">Read the Full Story <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-    <div id="hs-helmet-area">
-      <div id="hs-spotlight"></div>
-      <div id="hs-img-wrap">
-        <div id="hs-shadow"></div>
-        <img id="hs-helmet-img" class="hs-fade hs-in" src="" alt="" draggable="false" />
-      </div>
-      <div id="hs-arrows">
-        <div class="hs-arrow" id="hs-prev"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-        <div class="hs-arrow" id="hs-next"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 12l4-4-4-4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-      </div>
-    </div>
-  </div>
-  <div id="hs-caption"></div>
-</div>
-<script>
-const H = [
-  { name:'Rimon', heb:'רימון', artist:'Michal Ben David', medium:'Oil on Military Helmet', year:'2024', desc:'The pomegranate — ancient symbol of abundance and the 613 commandments — painted across a retired combat helmet. Where destruction once lived, life now blooms.', accent:'#C0392B', light:'rgba(192,57,43,0.13)', src:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Pomegranate_fruit_-_whole_and_piece_with_arils.jpg/320px-Pomegranate_fruit_-_whole_and_piece_with_arils.jpg' },
-  { name:'Where Have All\nthe Flowers Gone', heb:'אן פרחו כל הפרחים', artist:'Naomi Shemer', medium:'Acrylic on Military Helmet', year:'2024', desc:'Poppies and daisies cascade across steel — a question, a lament, a prayer. Named after the timeless song, this helmet speaks for those who cannot.', accent:'#E67E22', light:'rgba(230,126,34,0.13)', src:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Papaver_rhoeas_close.jpg/320px-Papaver_rhoeas_close.jpg' },
-  { name:'The Creation', heb:'בראשית', artist:'Yael Katz', medium:'Mixed Media on Military Helmet', year:'2023', desc:"Michelangelo's divine touch reimagined on a soldier's helmet. Between God's hand and Adam's — a soldier's outstretched arm, reaching toward something greater than war.", accent:'#BDC3C7', light:'rgba(189,195,199,0.1)', src:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg/320px-Michelangelo_-_Creation_of_Adam_%28cropped%29.jpg' }
+const helmets = [
+  {
+    id: 1,
+    src: '/pomegranate-helmet.jpg',
+    fallbackSrc: 'https://arifuld.org/wp-content/uploads/2025/01/Kadima-Concierge.jpg',
+    name: 'Rimon',
+    hebrewName: 'רימון',
+    artist: 'Michal Ben David',
+    medium: 'Oil on Military Helmet',
+    year: '2024',
+    description:
+      'The pomegranate — ancient symbol of abundance, fertility, and the 613 commandments — painted across a retired combat helmet. Where destruction once lived, life now blooms.',
+    accent: '#C0392B',
+    accentLight: 'rgba(192,57,43,0.15)',
+  },
+  {
+    id: 2,
+    src: '/flowers-helmet.jpg',
+    fallbackSrc: 'https://arifuld.org/wp-content/uploads/2025/01/Kadima-Concierge.jpg',
+    name: 'Where Have All the Flowers Gone',
+    hebrewName: 'אן פרחו כל הפרחים',
+    artist: 'Naomi Shemer',
+    medium: 'Acrylic on Military Helmet',
+    year: '2024',
+    description:
+      'Poppies and daisies cascade across steel — a question, a lament, a prayer. Named after the timeless song, this helmet speaks for those who cannot.',
+    accent: '#E67E22',
+    accentLight: 'rgba(230,126,34,0.15)',
+  },
+  {
+    id: 3,
+    src: '/creation-helmet.jpg',
+    fallbackSrc: 'https://arifuld.org/wp-content/uploads/2025/01/Kadima-Concierge.jpg',
+    name: 'The Creation',
+    hebrewName: 'בראשית',
+    artist: 'Yael Katz',
+    medium: 'Mixed Media on Military Helmet',
+    year: '2023',
+    description:
+      "Michelangelo's divine touch reimagined on a soldier's helmet. Between God's hand and Adam's — a soldier's outstretched arm, reaching toward something greater than war.",
+    accent: '#BDC3C7',
+    accentLight: 'rgba(189,195,199,0.12)',
+  },
 ];
-let cur = 0, timer = null, animating = false;
-const DUR = 4000;
 
-function setSlide(idx, dir) {
-  if (animating) return;
-  animating = true;
-  const h = H[idx];
-  const img = document.getElementById('hs-helmet-img');
-  const outClass = dir >= 0 ? 'hs-out-left' : 'hs-out-right';
-  img.classList.remove('hs-in');
-  img.classList.add(outClass);
-  setTimeout(() => {
-    img.src = h.src;
-    img.classList.remove(outClass);
-    img.classList.add(dir >= 0 ? 'hs-out-right' : 'hs-out-left');
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      img.classList.remove('hs-out-right','hs-out-left');
-      img.classList.add('hs-in');
-      animating = false;
-    }));
-  }, 380);
-  document.getElementById('hs-bg').style.background = `radial-gradient(ellipse 65% 65% at 32% 50%, ${h.light} 0%, transparent 68%), radial-gradient(ellipse 40% 40% at 78% 22%, rgba(229,178,93,0.05) 0%, transparent 60%), linear-gradient(160deg,#0a0810 0%,#05040a 100%)`;
-  document.getElementById('hs-spotlight').style.background = `radial-gradient(ellipse 55% 55% at 50% 55%, ${h.light} 0%, transparent 70%)`;
-  document.getElementById('hs-shadow').style.background = `radial-gradient(ellipse at center, ${h.accent}55 0%, transparent 70%)`;
-  document.getElementById('hs-num').textContent = String(idx+1).padStart(2,'0');
-  document.getElementById('hs-num').style.color = h.accent;
-  document.getElementById('hs-line').style.background = `linear-gradient(to right, ${h.accent}55, transparent)`;
-  document.getElementById('hs-heb').textContent = h.heb;
-  document.getElementById('hs-title').textContent = h.name;
-  document.getElementById('hs-meta-txt').textContent = `${h.artist} · ${h.medium} · ${h.year}`;
-  document.getElementById('hs-desc').textContent = h.desc;
-  document.getElementById('hs-caption').textContent = `${idx+1} of ${H.length} · Helmets 4 Chayalim Collection`;
-  H.forEach((_,i) => {
-    const fill = document.getElementById('bar'+i);
-    fill.style.transition = 'none';
-    fill.style.width = i < idx ? '100%' : '0%';
-    fill.style.background = h.accent;
-  });
-  if (timer) clearInterval(timer);
-  const fill = document.getElementById('bar'+idx);
-  fill.style.transition = `width ${DUR/1000}s linear`;
-  requestAnimationFrame(() => requestAnimationFrame(() => { fill.style.width = '100%'; }));
-  timer = setInterval(() => { cur = (cur+1)%H.length; setSlide(cur, 1); }, DUR);
+const DISPLAY_DURATION = 5000;
+const EXIT_DURATION = 800;
+
+export function Helmets({ setCurrentPage }: { setCurrentPage: (page: 'home' | 'join') => void }) {
+  const [active, setActive] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [direction, setDirection] = useState(1);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { margin: '-20%' });
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const goTo = (index: number) => {
+    setDirection(index > active ? 1 : -1);
+    setActive(index);
+  };
+
+  const advance = () => {
+    setDirection(1);
+    setActive((prev) => (prev + 1) % helmets.length);
+  };
+
+  useEffect(() => {
+    if (!isInView || isPaused) return;
+    timerRef.current = setTimeout(advance, DISPLAY_DURATION);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [active, isInView, isPaused]);
+
+  const helmet = helmets[active];
+
+  return (
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen overflow-hidden bg-[#05040a] flex flex-col"
+      onMouseEnter={() => setIsPaused(true)}
+      onMouseLeave={() => setIsPaused(false)}
+    >
+      <AnimatePresence mode="sync">
+        <motion.div
+          key={`bg-${active}`}
+          className="absolute inset-0 pointer-events-none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.6, ease: 'easeInOut' }}
+          style={{
+            background: `
+              radial-gradient(ellipse 60% 60% at 30% 50%, ${helmet.accentLight} 0%, transparent 70%),
+              radial-gradient(ellipse 40% 40% at 80% 20%, rgba(229,178,93,0.06) 0%, transparent 60%),
+              linear-gradient(160deg, #0a0810 0%, #05040a 100%)
+            `,
+          }}
+        />
+      </AnimatePresence>
+
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.035] mix-blend-overlay"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundSize: '200px',
+        }}
+      />
+
+      <div className="relative z-10 pt-20 pb-0 text-center">
+        <motion.p
+          initial={{ opacity: 0, y: -10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="font-accent text-[11px] uppercase tracking-[0.45em] text-accent/70"
+        >
+          Helmets 4 Chayalim — The Collection
+        </motion.p>
+      </div>
+
+      <div className="relative z-10 flex-1 flex flex-col lg:flex-row items-center justify-center px-6 lg:px-20 py-10 lg:py-0 max-w-7xl mx-auto w-full">
+
+        <div className="w-full lg:w-[45%] flex flex-col justify-center pr-0 lg:pr-16 order-2 lg:order-1">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={`text-${active}`}
+              initial={{ opacity: 0, x: -40, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, x: 20, filter: 'blur(4px)' }}
+              transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+              className="flex flex-col"
+            >
+              <div className="flex items-center gap-4 mb-8">
+                <span
+                  className="font-display font-black text-7xl leading-none tabular-nums select-none"
+                  style={{ color: helmet.accent, opacity: 0.18 }}
+                >
+                  {String(active + 1).padStart(2, '0')}
+                </span>
+                <div className="flex-1 h-px" style={{ background: `linear-gradient(to right, ${helmet.accent}60, transparent)` }} />
+              </div>
+
+              <p className="font-artistic text-white/25 text-xl mb-2 tracking-wide">
+                {helmet.hebrewName}
+              </p>
+
+              <h2
+                className="font-display font-black text-4xl md:text-5xl xl:text-6xl text-white leading-[1.05] mb-2"
+                style={{ letterSpacing: '-0.02em' }}
+              >
+                {helmet.name}
+              </h2>
+
+              <div className="flex items-center gap-3 mb-8 mt-3">
+                <div className="w-5 h-px bg-accent/50" />
+                <p className="font-accent text-xs uppercase tracking-[0.3em] text-white/45">
+                  {helmet.artist} · {helmet.medium} · {helmet.year}
+                </p>
+              </div>
+
+              <p className="font-body font-light text-lg text-white/65 leading-relaxed max-w-md mb-10">
+                {helmet.description}
+              </p>
+
+              <div className="flex gap-2 mb-10">
+                {helmets.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goTo(i)}
+                    className="h-[2px] flex-1 relative overflow-hidden rounded-full"
+                    style={{ background: 'rgba(255,255,255,0.1)' }}
+                    aria-label={`Go to helmet ${i + 1}`}
+                  >
+                    {i === active && (
+                      <motion.div
+                        className="absolute inset-y-0 left-0"
+                        style={{ background: helmet.accent }}
+                        initial={{ width: '0%' }}
+                        animate={{ width: isPaused ? undefined : '100%' }}
+                        transition={{ duration: DISPLAY_DURATION / 1000, ease: 'linear' }}
+                      />
+                    )}
+                    {i < active && (
+                      <div className="absolute inset-0" style={{ background: helmet.accent, opacity: 0.5 }} />
+                    )}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                onClick={() => setCurrentPage('join')}
+                className="group flex items-center gap-3 self-start font-accent text-xs uppercase tracking-[0.25em] text-white/50 hover:text-accent transition-colors duration-300"
+              >
+                <span>Read the Full Story</span>
+                <ArrowRight size={14} className="transform group-hover:translate-x-1.5 transition-transform duration-300" />
+              </button>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        <div className="w-full lg:w-[55%] flex items-center justify-center order-1 lg:order-2 relative" style={{ minHeight: '60vmin' }}>
+
+          <AnimatePresence mode="sync">
+            <motion.div
+              key={`glow-${active}`}
+              className="absolute inset-0 pointer-events-none"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.2, ease: 'easeOut' }}
+              style={{
+                background: `radial-gradient(ellipse 55% 55% at 50% 55%, ${helmet.accentLight} 0%, transparent 70%)`,
+              }}
+            />
+          </AnimatePresence>
+
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={`helmet-${active}`}
+              custom={direction}
+              variants={{
+                enter: (dir: number) => ({
+                  opacity: 0,
+                  x: dir > 0 ? 120 : -120,
+                  rotate: dir > 0 ? 14 : -14,
+                  scale: 0.82,
+                  filter: 'blur(12px)',
+                }),
+                center: {
+                  opacity: 1,
+                  x: 0,
+                  rotate: 0,
+                  scale: 1,
+                  filter: 'blur(0px)',
+                  transition: { duration: 1.05, ease: [0.16, 1, 0.3, 1] },
+                },
+                exit: (dir: number) => ({
+                  opacity: 0,
+                  x: dir > 0 ? -100 : 100,
+                  rotate: dir > 0 ? -10 : 10,
+                  scale: 0.88,
+                  filter: 'blur(8px)',
+                  transition: { duration: EXIT_DURATION / 1000, ease: [0.4, 0, 1, 1] },
+                }),
+              }}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              className="relative select-none"
+              style={{ maxWidth: '480px', width: '90%' }}
+            >
+              <div
+                className="absolute bottom-[-6%] left-[10%] right-[10%] h-[12%] rounded-full pointer-events-none"
+                style={{
+                  background: `radial-gradient(ellipse at center, ${helmet.accent}50 0%, transparent 70%)`,
+                  filter: 'blur(20px)',
+                }}
+              />
+              <img
+                src={helmet.src}
+                onError={(e) => { (e.target as HTMLImageElement).src = helmet.fallbackSrc; }}
+                alt={helmet.name}
+                className="w-full h-auto object-contain relative z-10"
+                style={{ filter: 'drop-shadow(0 40px 80px rgba(0,0,0,0.7)) drop-shadow(0 0 40px rgba(0,0,0,0.4))' }}
+                draggable={false}
+              />
+            </motion.div>
+          </AnimatePresence>
+
+          <button
+            onClick={() => goTo((active - 1 + helmets.length) % helmets.length)}
+            className="absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full border border-white/10 text-white/30 hover:text-white hover:border-white/30 transition-all duration-300 backdrop-blur-sm"
+            aria-label="Previous helmet"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          <button
+            onClick={() => goTo((active + 1) % helmets.length)}
+            className="absolute right-2 lg:right-6 top-1/2 -translate-y-1/2 w-10 h-10 flex items-center justify-center rounded-full border border-white/10 text-white/30 hover:text-white hover:border-white/30 transition-all duration-300 backdrop-blur-sm"
+            aria-label="Next helmet"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12l4-4-4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div className="relative z-10 pb-16 text-center">
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={`caption-${active}`}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+            className="font-accent text-[10px] uppercase tracking-[0.4em] text-white/20"
+          >
+            {active + 1} of {helmets.length} · Helmets 4 Chayalim Collection
+          </motion.p>
+        </AnimatePresence>
+      </div>
+    </section>
+  );
 }
-
-document.getElementById('hs-next').onclick = () => { if(timer)clearInterval(timer); cur=(cur+1)%H.length; setSlide(cur,1); };
-document.getElementById('hs-prev').onclick = () => { if(timer)clearInterval(timer); cur=(cur-1+H.length)%H.length; setSlide(cur,-1); };
-document.querySelectorAll('.hs-bar').forEach(b => b.onclick = () => { const i=+b.dataset.i; if(timer)clearInterval(timer); setSlide(i, i>cur?1:-1); cur=i; });
-document.getElementById('hs-helmet-img').onerror = function(){this.src='https://arifuld.org/wp-content/uploads/2025/01/Kadima-Concierge.jpg';};
-setSlide(0, 1);
-</script>
