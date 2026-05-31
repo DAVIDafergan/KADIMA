@@ -50,7 +50,7 @@ const helmets = [
 const DISPLAY_DURATION = 5000;
 const EXIT_DURATION = 800;
 
-export function Helmets({ setCurrentPage }: { setCurrentPage: (page: 'home' | 'join') =&gt; void }) {
+export function Helmets({ setCurrentPage }: { setCurrentPage: (page: 'home' | 'join') => void }) {
   const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [direction, setDirection] = useState(1);
