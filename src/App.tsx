@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { motion, useScroll, useSpring } from 'motion/react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
@@ -13,6 +14,8 @@ import { JoinProject } from './components/JoinProject';
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'join'>('home');
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 400, damping: 40 });
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -20,6 +23,11 @@ export default function App() {
 
   return (
     <div className="min-h-screen font-body text-primary bg-bg-light">
+      {/* Scroll progress bar */}
+      <motion.div
+        style={{ scaleX, transformOrigin: '0%' }}
+        className="fixed top-0 left-0 right-0 h-[2px] z-[9999] bg-gradient-to-r from-accent-bright via-accent to-electric"
+      />
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       <main>
         {currentPage === 'home' ? (
