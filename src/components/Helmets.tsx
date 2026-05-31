@@ -259,14 +259,19 @@ export function Helmets({ setCurrentPage }: { setCurrentPage: (page: 'home' | 'j
                   filter: 'blur(20px)',
                 }}
               />
-              <img
-                src={helmet.src}
-                onError={(e) => { (e.target as HTMLImageElement).src = helmet.fallbackSrc; }}
-                alt={helmet.name}
-                className="w-full h-auto object-contain relative z-10"
-                style={{ filter: 'drop-shadow(0 40px 80px rgba(0,0,0,0.7)) drop-shadow(0 0 40px rgba(0,0,0,0.4))' }}
-                draggable={false}
-              />
+              <div className="relative z-10 bg-transparent">
+                <img
+                  src={helmet.src}
+                  onError={(e) => { (e.target as HTMLImageElement).src = helmet.fallbackSrc; }}
+                  alt={helmet.name}
+                  className="w-full h-auto object-contain relative z-10"
+                  style={{
+                    filter: 'drop-shadow(0 40px 80px rgba(0,0,0,0.7)) drop-shadow(0 0 40px rgba(0,0,0,0.4))',
+                    background: 'transparent'
+                  }}
+                  draggable={false}
+                />
+              </div>
             </motion.div>
           </AnimatePresence>
 
