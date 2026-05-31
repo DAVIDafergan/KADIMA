@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Sans+3:wght@300;400;600&family=Caveat:wght@400..700&family=Oswald:wght@400;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #120A1A; /* Deep plum/black for luxury */
+  --color-accent: #E5B25D; /* Luxury Gold */
+  --color-accent-bright: #F72585; /* Vibrant Artistic Magenta */
+  --color-bg-light: #FDF9F6; /* Warm canvas */
+  --color-bg-dark: #0A050F;
+  
+  --font-display: "Playfair Display", serif;
+  --font-body: "Source Sans 3", sans-serif;
+  --font-accent: "Oswald", sans-serif;
+  --font-artistic: "Caveat", cursive;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg-light);
+  color: var(--color-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
+
+.font-accent {
+  font-family: var(--font-accent);
+}
+
+.font-artistic {
+  font-family: var(--font-artistic);
+}
+
+.navy-gradient {
+  background: linear-gradient(180deg, #120A1A 0%, #0A050F 100%);
+}
+
+.radiant-bg {
+  background: radial-gradient(circle at 70% 20%, rgba(247, 37, 133, 0.15) 0%, rgba(18, 10, 26, 0.9) 45%, #0A050F 100%),
+              radial-gradient(circle at 20% 80%, rgba(67, 97, 238, 0.15) 0%, transparent 40%);
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #FCD997 0%, #D49335 100%);
+}
+
+.gold-text-gradient {
+  background: linear-gradient(135deg, #FFE5B2 0%, #E5B25D 50%, #B8852B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.feature-card {
+  background: #ffffff;
+  transition: transform 0.3s ease;
+  border-bottom: 4px solid var(--color-accent);
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(10, 17, 40, 0.1);
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+
+@keyframes floatMedium {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-40px) scale(1.1); }
+}
+
+@keyframes floatFast {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-50px) scale(0.95); }
+}
+
+.float-slow {
+  animation: floatSlow 12s ease-in-out infinite;
+}
+
+.float-medium {
+  animation: floatMedium 8s ease-in-out infinite;
+}
+
+.float-fast {
+  animation: floatFast 6s ease-in-out infinite;
+}
+
+.dynamic-luxury-bg {
+  background: linear-gradient(-45deg, #2D0B24, #120A1A, #1A0D2E, #0A050F);
+  background-size: 400% 400%;
+  animation: gradientFlow 15s ease infinite;
+}
+
+@keyframes floatElement {
+  0% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+  100% { transform: translateY(0px) rotate(0deg); }
+}
+
+.float-slow {
+  animation: floatElement 8s ease-in-out infinite;
+}
+.float-medium {
+  animation: floatElement 6s ease-in-out infinite;
+  animation-delay: 1s;
+}
+.float-fast {
+  animation: floatElement 5s ease-in-out infinite;
+  animation-delay: 2s;
+}
+

@@ -1,0 +1,6 @@
+{
+  "name": "Kadima Concierge",
+  "description": "A grassroots initiative delivering critical tactical gear, sports equipment, wellness events, and meals to IDF troops across Israel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
