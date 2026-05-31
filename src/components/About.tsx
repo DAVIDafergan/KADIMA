@@ -7,40 +7,48 @@ export function About() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
+        staggerChildren: 0.08,
         delayChildren: 0.1
       }
     }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 40, filter: "blur(12px)" },
+    hidden: { opacity: 0, y: 32 },
     visible: { 
       opacity: 1, 
       y: 0, 
-      filter: "blur(0px)",
-      transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 1, ease: [0.16, 1, 0.3, 1] }
+    }
+  };
+
+  const listItemVariants = {
+    hidden: { opacity: 0, clipPath: "inset(0 100% 0 0)" },
+    visible: {
+      opacity: 1,
+      clipPath: "inset(0 0% 0 0)",
+      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] }
     }
   };
 
   return (
-    <section id="about" className="py-32 dynamic-luxury-bg relative overflow-hidden bg-[var(--color-bg-dark)]">
+    <section id="about" className="py-44 dynamic-luxury-bg relative overflow-hidden bg-[var(--color-bg-dark)] [clip-path:polygon(0_0,100%_0,100%_92%,0_100%)]">
       {/* Background elegant lighting & artistic color splashes */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-screen pointer-events-none"></div>
       
       {/* Abstract Colorful Blobs */}
-      <div className="absolute top-[10%] left-[-10%] w-[500px] h-[500px] bg-accent-bright/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
-      <div className="absolute bottom-[20%] right-[-5%] w-[600px] h-[600px] bg-[#3A0CA3]/20 rounded-full blur-[150px] mix-blend-screen pointer-events-none" />
+      <div className="absolute top-[10%] left-[-10%] w-[500px] h-[500px] bg-accent/8 rounded-full blur-[120px] mix-blend-screen pointer-events-none" />
+      <div className="absolute bottom-[20%] right-[-5%] w-[600px] h-[600px] bg-accent/6 rounded-full blur-[150px] mix-blend-screen pointer-events-none" />
       
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: "-120px" }}
           variants={containerVariants}
         >
           <motion.div variants={itemVariants} className="flex flex-col items-center justify-center mb-16 relative">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-accent-bright/5 font-artistic text-[150px] whitespace-nowrap pointer-events-none select-none blur-sm z-0">Our Story</div>
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-accent/3 font-artistic text-[220px] whitespace-nowrap pointer-events-none select-none z-0">Our Story</div>
             <h4 className="font-accent text-accent text-xs font-bold tracking-[0.3em] uppercase mb-4 text-center relative z-10">Our Story & Founder</h4>
             <div className="flex items-center justify-center relative z-10">
               <div className="h-[2px] w-12 md:w-24 bg-gradient-to-r from-transparent to-accent-bright"></div>
@@ -62,9 +70,7 @@ export function About() {
                 
                 {/* Special Profile Image Design */}
                 <div className="relative w-48 h-48 md:w-56 md:h-56 mb-8 mx-auto xl:mx-0">
-                  {/* Decorative Outer Rings */}
-                  <div className="absolute inset-[-10px] border border-accent/20 rounded-full animate-[spin_10s_linear_infinite]" />
-                  <div className="absolute inset-[-20px] border border-white/5 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+                  <div className="absolute inset-[-12px] border border-accent/20 rounded-[28px]" />
                   
                   {/* Glow Effect */}
                   <div className="absolute inset-0 bg-accent/20 rounded-full blur-xl group-hover:bg-accent/40 transition-colors duration-700" />
@@ -74,8 +80,9 @@ export function About() {
                     <img 
                       src="/seagal-profile.jpg" 
                       alt="Seagal Hagege" 
-                      className="w-full h-full object-cover filter grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+                      className="w-full h-full object-cover filter grayscale-[100%] group-hover:scale-110 transition-all duration-700"
                     />
+                    <div className="absolute inset-0 bg-accent/20 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                     {/* Inner Shadow Overlay */}
                     <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] pointer-events-none" />
                   </div>
@@ -130,6 +137,10 @@ export function About() {
                 <p className="text-xl text-white/80 font-light leading-relaxed mb-6">
                   Growing out of the Kadima Concierge effort, this project takes retired or damaged military helmets and transforms them into works of art created by volunteer artists. The completed helmets are displayed at exhibitions and community events, with proceeds helping fund new protective equipment for soldiers.
                 </p>
+
+                <blockquote className="text-2xl font-display font-light italic text-white/60 border-l-2 border-accent pl-6 py-2 my-8">
+                  “What we send is protection—but what we build is solidarity.”
+                </blockquote>
                 
                 <div className="bg-[#0d1520]/80 border border-white/5 p-8 rounded-xl shadow-inner">
                   <h4 className="font-accent text-white uppercase tracking-widest text-sm mb-6 opacity-80">The Initiative Combines:</h4>
@@ -143,7 +154,7 @@ export function About() {
                     ].map((item, idx) => (
                       <motion.li 
                         key={idx}
-                        variants={itemVariants}
+                        variants={listItemVariants}
                         className="flex items-start gap-4 text-white/90 text-lg font-light"
                       >
                         <span className="text-accent mt-1 flex-shrink-0">
