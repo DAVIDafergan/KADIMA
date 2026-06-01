@@ -19,7 +19,7 @@ export default function DonatePage() {
       <motion.div variants={sectionVariants}>
         <PageHero
           tag="Support the Mission"
-          title="Stand With Our <span class='font-artistic text-accent lowercase'>Soldiers</span>"
+          title="Stand With Our Soldiers"
           subtitle="Every donation helps provide life-saving gear and critical support."
         />
       </motion.div>

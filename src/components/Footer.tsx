@@ -1,79 +1,57 @@
-import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
+
+const navLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Our Mission', href: '/about' },
+  { label: 'Helmets', href: '/helmets' },
+  { label: 'Join Us', href: '/join' },
+  { label: 'Donate', href: '/donate' },
+];
 
 export function Footer() {
   return (
-    <footer className="bg-bg-dark text-white/75 relative overflow-hidden py-16">
-      <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
+    <footer className="section-dark border-t border-white/10 py-14">
+      <div className="container-shell">
+        <div className="grid gap-8 md:grid-cols-3">
+          <div>
+            <img
+              src="https://arifuld.org/wp-content/uploads/2025/10/AFP-Transparent-Logo-300-px.png"
+              alt="Kadima Concierge"
+              className="h-14 w-auto brightness-0 invert"
+              loading="lazy"
+              decoding="async"
+            />
+            <p className="mt-4 max-w-sm text-sm text-muted-dark">
+              Kadima Concierge funds and delivers tactical support for soldiers and communities in Israel.
+            </p>
+          </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-120px' }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-            <div>
-              <h5 className="font-accent uppercase tracking-widest text-xs text-white/40 mb-4">Navigate</h5>
-              <ul className="space-y-2">
-                {[
-                  { label: 'Home', href: '/' },
-                  { label: 'Our Mission', href: '/about' },
-                  { label: 'Helmets 4 Chayalim', href: '/helmets' },
-                  { label: 'Join the Project', href: '/join' },
-                  { label: 'Donate', href: '/donate' },
-                ].map((link) => (
-                  <li key={link.href}>
-                    <Link to={link.href} className="text-white/50 hover:text-accent text-sm font-light transition-colors">
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h5 className="font-accent uppercase tracking-widest text-xs text-white/40 mb-4">Project</h5>
-              <p className="text-white/50 text-sm font-light leading-relaxed">
-                Kadima Concierge operates under The Ari Fuld Project in Israel and the US.
-              </p>
-            </div>
-
-            <div>
-              <h5 className="font-accent uppercase tracking-widest text-xs text-white/40 mb-4">Social</h5>
-              <div className="space-y-2">
-                {[
-                  { label: 'Facebook', href: 'https://facebook.com/TheAriFuldProject' },
-                  { label: 'X', href: 'https://x.com/arifuldproject' },
-                  { label: 'Instagram', href: 'https://www.instagram.com/seagalitberetz?igsh=MXNxcWYwZGVuam80Yg%3D%3D&utm_source=qr' },
-                ].map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block text-white/50 hover:text-accent text-sm font-light transition-colors"
-                  >
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-accent">Navigate</h2>
+            <ul className="mt-3 space-y-1">
+              {navLinks.map((link) => (
+                <li key={link.href}>
+                  <Link to={link.href} className="inline-flex min-h-[44px] items-center text-white/85 hover:text-accent">
                     {link.label}
-                  </a>
-                ))}
-              </div>
-            </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-            <div className="text-center md:text-right">
-              <img
-                src="https://arifuld.org/wp-content/uploads/2025/10/AFP-Transparent-Logo-300-px.png"
-                alt="Kadima Concierge"
-                className="h-14 w-auto mx-auto md:ml-auto brightness-0 invert opacity-85"
-              />
+          <div>
+            <h2 className="text-sm font-semibold uppercase tracking-[0.08em] text-accent">Connect</h2>
+            <div className="mt-3 space-y-1 text-sm">
+              <a href="https://facebook.com/TheAriFuldProject" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center text-white/85 hover:text-accent">Facebook</a>
+              <a href="https://x.com/arifuldproject" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center text-white/85 hover:text-accent">X</a>
+              <a href="https://www.instagram.com/seagalitberetz?igsh=MXNxcWYwZGVuam80Yg%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-[44px] items-center text-white/85 hover:text-accent">Instagram</a>
             </div>
           </div>
-        </motion.div>
-
-        <div className="pt-8 border-t border-white/8 text-center text-white/25 text-xs font-accent tracking-widest">
-          © {new Date().getFullYear()} Kadima Concierge · The Ari Fuld Project
         </div>
+
+        <p className="mt-9 border-t border-white/10 pt-6 text-center text-xs text-white/60">
+          © {new Date().getFullYear()} Kadima Concierge · The Ari Fuld Project
+        </p>
       </div>
     </footer>
   );

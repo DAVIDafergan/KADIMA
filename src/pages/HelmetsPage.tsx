@@ -19,7 +19,7 @@ export default function HelmetsPage() {
       <motion.div variants={sectionVariants}>
         <PageHero
           tag="Helmets 4 Chayalim"
-          title="Art Meets <span class='font-artistic text-accent lowercase'>Protection</span>"
+          title="Art Meets Protection"
           subtitle="A collection that transforms helmets into stories of healing and solidarity."
         />
       </motion.div>

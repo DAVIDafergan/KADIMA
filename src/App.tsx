@@ -5,7 +5,6 @@ import { Footer } from './components/Footer';
 import { ScrollProgress } from './components/ScrollProgress';
 import { PageTransition } from './components/PageTransition';
 import { PageLoader } from './components/PageLoader';
-import { CustomCursor } from './components/CustomCursor';
 import { useScrollToTop } from './hooks/useScrollToTop';
 
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -20,10 +19,9 @@ function AppContent() {
   return (
     <div className="min-h-screen font-body text-primary bg-bg-light">
       <ScrollProgress />
-      <CustomCursor />
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[99999] bg-accent text-primary px-4 py-2 rounded"
+        className="skip-link"
       >
         Skip to content
       </a>
