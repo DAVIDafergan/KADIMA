@@ -169,7 +169,7 @@ export function Navbar() {
                   </Link>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </>
         )}
       </AnimatePresence>
