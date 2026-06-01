@@ -18,7 +18,7 @@ export default function JoinPage() {
       <motion.div variants={sectionVariants}>
         <PageHero
           tag="Join the Project"
-          title="Helmets 4 <span class='font-artistic text-accent-bright lowercase'>Chayalim</span>"
+          title="Helmets 4 Chayalim"
           subtitle="From protection to purpose — help carry the story forward."
         />
       </motion.div>

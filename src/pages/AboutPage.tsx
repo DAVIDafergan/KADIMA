@@ -19,7 +19,7 @@ export default function AboutPage() {
       <motion.div variants={sectionVariants}>
         <PageHero
           tag="Our Story & Founder"
-          title="Our <span class='font-artistic text-accent lowercase'>Mission</span>"
+          title="Our Mission"
           subtitle="Supporting soldiers with gear, care, and community across Israel."
         />
       </motion.div>
