@@ -1,8 +1,10 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const navigate = useNavigate();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start start', 'end start']
@@ -70,10 +72,7 @@ export function Hero() {
             Donate Now
           </a>
           <button
-            onClick={() => {
-              const el = document.getElementById('about');
-              el?.scrollIntoView({ behavior: 'smooth' });
-            }}
+            onClick={() => navigate('/about')}
             className="w-full sm:w-auto px-9 py-4 border border-white/35 text-white hover:bg-white/10 transition-colors font-accent font-semibold uppercase tracking-[0.16em] rounded-sm text-[11px]"
           >
             Our Mission
@@ -83,7 +82,8 @@ export function Hero() {
 
       <button
         className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 text-white/65 hover:text-white transition-colors"
-        onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+        onClick={() => navigate('/about')}
+        aria-label="Go to our mission page"
       >
         <motion.span
           animate={{ y: [0, 8, 0] }}

@@ -85,14 +85,14 @@ export function Donate() {
             >
               Donate via IsraelGives
             </a>
-            <a
-              href="https://my.israelgives.org/en/fundme/kadima_concierge"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto px-12 py-5 border border-white/30 text-white hover:bg-white/8 hover:border-accent/50 font-accent font-bold tracking-widest rounded-sm transition-all text-sm uppercase backdrop-blur-sm"
+            <button
+              type="button"
+              className="w-full sm:w-auto px-12 py-5 border border-white/20 text-white/50 font-accent font-bold tracking-widest rounded-sm transition-all text-sm uppercase backdrop-blur-sm cursor-not-allowed"
+              title="Coming soon"
+              aria-label="PayPal and Bit coming soon"
             >
               PayPal / Bit
-            </a>
+            </button>
           </div>
           <p className="mt-6 text-xs text-white/35 font-accent tracking-[0.22em] uppercase">
             Tax-deductible · All funds go directly to soldiers

@@ -73,8 +73,9 @@ export function WhatWeDo() {
                 key={index}
                 initial={{ opacity: 0, y: 60, scale: 0.95, filter: 'blur(8px)' }}
                 whileInView={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+                whileHover={{ y: -8, scale: 1.02 }}
                 viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 1, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                transition={{ duration: 1, delay: index * 0.12, ease: [0.16, 1, 0.3, 1], type: 'spring', stiffness: 300, damping: 20 }}
                 className="relative group"
                 style={{ padding: '1px', borderRadius: '1rem', background: `linear-gradient(135deg, ${area.borderFrom}22, ${area.borderTo}22)` }}
               >

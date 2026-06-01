@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView, AnimatePresence } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const helmets = [
   {
@@ -50,7 +51,8 @@ const helmets = [
 const DISPLAY_DURATION = 5000;
 const EXIT_DURATION = 800;
 
-export function Helmets({ setCurrentPage }: { setCurrentPage: (page: 'home' | 'join') => void }) {
+export function Helmets() {
+  const navigate = useNavigate();
   const [active, setActive] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [direction, setDirection] = useState(1);
@@ -191,7 +193,7 @@ export function Helmets({ setCurrentPage }: { setCurrentPage: (page: 'home' | 'j
               </div>
 
               <button
-                onClick={() => setCurrentPage('join')}
+                onClick={() => navigate('/join')}
                 className="group flex items-center gap-3 self-start font-accent text-xs uppercase tracking-[0.25em] text-white/50 hover:text-accent transition-colors duration-300"
               >
                 <span>Read the Full Story</span>

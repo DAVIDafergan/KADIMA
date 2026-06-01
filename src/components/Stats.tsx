@@ -10,7 +10,7 @@ function Counter({ from, to, duration, prefix = '', suffix = '' }: { from: numbe
     if (isInView && nodeRef.current) {
       const controls = animate(from, to, {
         duration,
-        ease: "easeOut",
+        ease: [0.16, 1, 0.3, 1],
         onUpdate(value) {
           if (nodeRef.current) {
             nodeRef.current.textContent = prefix + Math.floor(value).toLocaleString() + suffix;
@@ -69,7 +69,7 @@ export function Stats() {
       <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent-bright/25 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-0">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0">
           {stats.map((stat, i) => (
             <motion.div
               key={i}
@@ -104,7 +104,7 @@ export function Stats() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-120px" }}
             transition={{ duration: 1, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="col-span-2 lg:col-span-1 relative flex flex-col items-center text-center group py-12 px-6 transition-all duration-500 hover:-translate-y-1 border border-violet/20"
+            className="col-span-1 sm:col-span-2 lg:col-span-1 relative flex flex-col items-center text-center group py-12 px-6 transition-all duration-500 hover:-translate-y-1 border border-violet/20"
             style={{
               background: 'radial-gradient(ellipse at top, rgba(123,47,190,0.12) 0%, transparent 70%)',
             }}
