@@ -1,7 +1,9 @@
 import { motion } from 'motion/react';
 import { Instagram, Star } from 'lucide-react';
+import { useState } from 'react';
 
 export function About() {
+  const [imgError, setImgError] = useState(false);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -32,7 +34,7 @@ export function About() {
   };
 
   return (
-    <section id="about" className="py-44 dynamic-luxury-bg relative overflow-hidden bg-[var(--color-bg-dark)] [clip-path:polygon(0_0,100%_0,100%_92%,0_100%)]">
+    <section id="about" className="py-44 dynamic-luxury-bg relative overflow-hidden bg-[var(--color-bg-dark)] border-b border-accent/20">
       {/* Background elegant lighting & artistic color splashes */}
       <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-10 mix-blend-screen pointer-events-none"></div>
       
@@ -77,14 +79,22 @@ export function About() {
                   
                   {/* Image Container */}
                   <div className="relative w-full h-full rounded-full border-2 border-accent/40 overflow-hidden shadow-[0_0_30px_rgba(200,169,110,0.2)] group-hover:border-accent/80 transition-all duration-700 bg-[#0d1520]/50">
-                    <img 
-                      src="/seagal-profile.jpg" 
-                      alt="Seagal Hagege" 
-                      className="w-full h-full object-cover filter grayscale-[100%] group-hover:scale-110 transition-all duration-700"
-                    />
-                    <div className="absolute inset-0 bg-accent/20 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                    {/* Inner Shadow Overlay */}
-                    <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] pointer-events-none" />
+                    {imgError ? (
+                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-accent/20 to-accent/5 rounded-full">
+                        <span className="font-display text-5xl font-black text-accent">S</span>
+                      </div>
+                    ) : (
+                      <>
+                        <img 
+                          src="/seagal-profile.jpg" 
+                          alt="Seagal Hagege" 
+                          onError={() => setImgError(true)}
+                          className="w-full h-full object-cover filter grayscale-[100%] group-hover:scale-110 transition-all duration-700"
+                        />
+                        <div className="absolute inset-0 bg-accent/20 mix-blend-multiply opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.5)] pointer-events-none" />
+                      </>
+                    )}
                   </div>
                 </div>
                 

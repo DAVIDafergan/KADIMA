@@ -1,7 +1,9 @@
 import { motion } from 'motion/react';
 import { ArrowLeft, Instagram, Sparkles, Heart, Shield, Paintbrush } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-export function JoinProject({ setCurrentPage }: { setCurrentPage: (page: 'home' | 'join') => void }) {
+export function JoinProject() {
+  const navigate = useNavigate();
   const fadeUp = {
     hidden: { opacity: 0, y: 30, filter: "blur(10px)" },
     visible: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }
@@ -13,7 +15,7 @@ export function JoinProject({ setCurrentPage }: { setCurrentPage: (page: 'home' 
   };
 
   return (
-    <article className="pt-24 pb-20 dynamic-luxury-bg bg-[var(--color-bg-dark)] min-h-screen relative text-white w-full">
+    <article className="pt-10 pb-20 dynamic-luxury-bg bg-[var(--color-bg-dark)] min-h-screen relative text-white w-full">
       {/* Artistic Floating Splashes */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-accent-bright/10 rounded-full blur-[120px] pointer-events-none float-slow mix-blend-screen" />
       <div className="absolute top-[30%] left-[-10%] w-[500px] h-[500px] bg-[#3A0CA3]/20 rounded-full blur-[150px] pointer-events-none float-medium mix-blend-screen" />
@@ -25,7 +27,7 @@ export function JoinProject({ setCurrentPage }: { setCurrentPage: (page: 'home' 
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-6 border-b border-white/10 pb-6">
           <motion.button 
             initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1 }}
-            onClick={() => { setCurrentPage('home'); window.scrollTo(0,0); }} 
+            onClick={() => navigate('/')} 
             className="flex items-center gap-3 text-white/50 hover:text-accent-bright font-accent uppercase text-xs tracking-widest transition-colors group mb-8 md:mb-0"
           >
             <ArrowLeft size={16} className="transform group-hover:-translate-x-1 transition-transform" /> Back to Home

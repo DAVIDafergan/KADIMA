@@ -2,7 +2,7 @@ import { motion } from 'motion/react';
 
 export function Partners() {
   return (
-    <section className="py-24 bg-bg-light relative overflow-hidden [clip-path:polygon(0_0,100%_0,100%_100%,0_88%)]">
+    <section className="py-24 bg-bg-light relative overflow-hidden md:[clip-path:polygon(0_0,100%_0,100%_100%,0_88%)]">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
       <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" />
 
