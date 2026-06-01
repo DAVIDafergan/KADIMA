@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 const navLinks = [
+  { href: '/', label: 'Home' },
   { href: '/about', label: 'Our Mission' },
   { href: '/helmets', label: 'Helmets' },
+  { href: '/gallery', label: 'Gallery' },
   { href: '/join', label: 'Join Us' },
 ];
 

@@ -12,6 +12,7 @@ const AboutPage = lazy(() => import('./pages/AboutPage'));
 const HelmetsPage = lazy(() => import('./pages/HelmetsPage'));
 const JoinPage = lazy(() => import('./pages/JoinPage'));
 const DonatePage = lazy(() => import('./pages/DonatePage'));
+const GalleryPage = lazy(() => import('./pages/GalleryPage'));
 
 function AppContent() {
   useScrollToTop();
@@ -33,6 +34,7 @@ function AppContent() {
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/helmets" element={<HelmetsPage />} />
+              <Route path="/gallery" element={<GalleryPage />} />
               <Route path="/join" element={<JoinPage />} />
               <Route path="/donate" element={<DonatePage />} />
             </Routes>
