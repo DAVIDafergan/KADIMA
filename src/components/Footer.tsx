@@ -15,9 +15,9 @@ export function Footer() {
         <div className="grid gap-8 md:grid-cols-3">
           <div>
             <img
-              src="https://arifuld.org/wp-content/uploads/2025/10/AFP-Transparent-Logo-300-px.png"
+              src="https://github.com/user-attachments/assets/3e627728-3898-4039-9828-2692920556ab"
               alt="Kadima Concierge"
-              className="h-14 w-auto brightness-0 invert"
+              className="h-14 w-auto object-contain"
               loading="lazy"
               decoding="async"
             />
