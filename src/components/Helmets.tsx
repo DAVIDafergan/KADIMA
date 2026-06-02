@@ -1,49 +1,14 @@
 import { useState } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
-const helmets = [
-  {
-    id: 1,
-    src: '/pomegranate-helmet.jpg',
-    fallbackSrc: 'https://arifuld.org/wp-content/uploads/2025/01/Kadima-Concierge.jpg',
-    name: 'Rimon',
-    artist: 'Michal Ben David',
-    medium: 'Oil on Military Helmet',
-    year: '2024',
-    description:
-      'The pomegranate symbolizes abundance and life. This piece transforms a retired combat helmet into a message of renewal.',
-  },
-  {
-    id: 2,
-    src: '/flowers-helmet.jpg',
-    fallbackSrc: 'https://arifuld.org/wp-content/uploads/2025/01/Kadima-Concierge.jpg',
-    name: 'Where Have All the Flowers Gone',
-    artist: 'Naomi Shemer',
-    medium: 'Acrylic on Military Helmet',
-    year: '2024',
-    description:
-      'A floral lament and prayer for peace. This helmet carries memory, resilience, and collective hope.',
-  },
-  {
-    id: 3,
-    src: '/creation-helmet.jpg',
-    fallbackSrc: 'https://arifuld.org/wp-content/uploads/2025/01/Kadima-Concierge.jpg',
-    name: 'The Creation',
-    artist: 'Yael Katz',
-    medium: 'Mixed Media on Military Helmet',
-    year: '2023',
-    description:
-      'A reinterpretation of Michelangelo’s touch, recast through the story of protection and service.',
-  },
-];
+import { helmetsData } from '../data/helmetsData';
 
 export function Helmets() {
   const [active, setActive] = useState(0);
-  const current = helmets[active];
+  const current = helmetsData[active];
 
-  const goPrev = () => setActive((prev) => (prev - 1 + helmets.length) % helmets.length);
-  const goNext = () => setActive((prev) => (prev + 1) % helmets.length);
+  const goPrev = () => setActive((prev) => (prev - 1 + helmetsData.length) % helmetsData.length);
+  const goNext = () => setActive((prev) => (prev + 1) % helmetsData.length);
 
   return (
     <section className="section section-dark">
@@ -58,11 +23,8 @@ export function Helmets() {
           <article className="surface-card-dark p-4 sm:p-6">
             <img
               key={current.id}
-              src={current.src}
+              src={current.imageSrc}
               alt={current.name}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = current.fallbackSrc;
-              }}
               className="h-[320px] w-full rounded-xl object-contain bg-black/20 p-3 sm:h-[420px]"
               loading="lazy"
               decoding="async"
@@ -72,7 +34,7 @@ export function Helmets() {
                 <ArrowLeft size={16} />
               </button>
               <div className="flex gap-2">
-                {helmets.map((helmet, index) => (
+                {helmetsData.map((helmet, index) => (
                   <button
                     key={helmet.id}
                     type="button"
