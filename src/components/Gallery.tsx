@@ -1,12 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { X } from 'lucide-react';
 import { useEffect, useState } from 'react';
-
-const images = [
-  'https://my.israelgives.org/AppImages/fundpage/original/kadima_concierge/e2e6e639-c346-4777-ba88-12d6762b4bff.jpg',
-  'https://my.israelgives.org/AppImages/fundpage/original/kadima_concierge/fc87f054-9d68-4674-897d-594ef9dab64a.jpg',
-  'https://my.israelgives.org/AppImages/fundpage/original/kadima_concierge/6f7be831-c756-4be2-a422-88d00dff0129.jpg',
-];
+import { helmetsData } from '../data/helmetsData';
 
 export function Gallery() {
   const [lightbox, setLightbox] = useState<string | null>(null);
@@ -44,17 +39,17 @@ export function Gallery() {
         </div>
 
         <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 sm:grid sm:gap-4 sm:overflow-visible sm:pb-0 sm:snap-none sm:grid-cols-2 lg:grid-cols-3">
-          {images.map((src, index) => (
+          {helmetsData.map((helmet, index) => (
             <button
-              key={src}
+              key={helmet.id}
               type="button"
-              onClick={() => setLightbox(src)}
+              onClick={() => setLightbox(helmet.imageSrc)}
               className="surface-card group min-w-[84vw] snap-center overflow-hidden p-2 text-left sm:min-w-0"
               aria-label={`Open gallery image ${index + 1}`}
             >
               <img
-                src={src}
-                alt={`Kadima gallery image ${index + 1}`}
+                src={helmet.imageSrc}
+                alt={helmet.name}
                 className="h-56 w-full rounded-lg object-cover transition-transform duration-300 group-hover:scale-[1.02] sm:h-64"
                 loading="lazy"
                 decoding="async"
