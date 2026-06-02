@@ -1,47 +1,49 @@
-import { HeartPulse, HardHat, ShieldCheck, Utensils } from 'lucide-react';
+import { motion } from 'motion/react';
+import { HeartPulse, ShieldCheck, Utensils } from 'lucide-react';
 
 const impactAreas = [
   {
-    title: 'Tactical Gear',
-    description: 'Procurement and delivery of life-saving military equipment for active IDF units.',
+    title: 'Protect',
+    description: 'Fast procurement of life-saving tactical gear for active units.',
     icon: ShieldCheck,
   },
   {
-    title: 'Meals & Nutrition',
-    description: 'Hot meals and nutrition support for soldiers deployed in the field.',
+    title: 'Sustain',
+    description: 'Meals and essentials delivered directly to soldiers in the field.',
     icon: Utensils,
   },
   {
-    title: 'Wellness Support',
-    description: 'Sports and wellbeing support to sustain morale and long-term resilience.',
+    title: 'Strengthen',
+    description: 'Wellness and resilience support for soldiers and communities.',
     icon: HeartPulse,
-  },
-  {
-    title: 'Helmets 4 Chayalim',
-    description: 'Art exhibitions and storytelling that fund new protective equipment.',
-    icon: HardHat,
   },
 ];
 
 export function WhatWeDo() {
   return (
-    <section className="section bg-bg-light">
+    <section className="bg-[#fdfbf7] py-14 md:py-18">
       <div className="container-shell">
-        <div className="section-title-wrap">
-          <p className="heading-eyebrow">Core mission</p>
-          <h2 className="heading-lg">Focused initiatives with direct impact</h2>
-          <p className="mt-3 text-muted">Each activity is designed to remove friction between donor support and field delivery.</p>
+        <div className="mx-auto mb-7 max-w-2xl text-center">
+          <p className="heading-eyebrow">How we help</p>
+          <h2 className="heading-lg">Three focused paths. One mission.</h2>
         </div>
 
-        <div className="grid-auto">
-          {impactAreas.map(({ title, description, icon: Icon }) => (
-            <article key={title} className="surface-card min-h-[220px] p-6">
-              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-full bg-primary/6 text-primary">
+        <div className="grid gap-3 md:grid-cols-3">
+          {impactAreas.map(({ title, description, icon: Icon }, index) => (
+            <motion.article
+              key={title}
+              initial={{ opacity: 0, y: 18 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.45, delay: index * 0.08 }}
+              className="surface-card p-5"
+            >
+              <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-primary/7 text-primary">
                 <Icon size={20} />
               </div>
-              <h3 className="text-xl font-semibold">{title}</h3>
-              <p className="mt-2 text-muted">{description}</p>
-            </article>
+              <h3 className="text-2xl font-semibold">{title}</h3>
+              <p className="mt-2 text-sm text-muted">{description}</p>
+            </motion.article>
           ))}
         </div>
       </div>
