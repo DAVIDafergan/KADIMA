@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useInView } from 'motion/react';
 import { X, Calendar, MapPin } from 'lucide-react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface EventItem {
   src: string;
@@ -77,6 +77,30 @@ export function EventsGallery() {
   const eventsInView = useInView(eventsRef, { once: true, margin: '-80px' });
   const photosInView = useInView(photosRef, { once: true, margin: '-80px' });
 
+  useEffect(() => {
+    if (!lightbox) {
+      return;
+    }
+
+    const originalOverflow = document.body.style.overflow;
+    const originalTouchAction = document.body.style.touchAction;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setLightbox(null);
+      }
+    };
+
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.touchAction = originalTouchAction;
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [lightbox]);
+
   return (
     <>
       {/* ── Event Flyers ── */}
@@ -96,10 +120,10 @@ export function EventsGallery() {
             variants={containerVariants}
             initial="hidden"
             animate={eventsInView ? 'visible' : 'hidden'}
-            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 sm:grid sm:gap-6 sm:overflow-visible sm:pb-0 sm:snap-none sm:grid-cols-2 lg:grid-cols-4"
           >
             {events.map((event) => (
-              <motion.div key={event.src} variants={cardVariants}>
+              <motion.div key={event.src} variants={cardVariants} className="min-w-[84vw] snap-center sm:min-w-0">
                 <button
                   type="button"
                   onClick={() => setLightbox(event.src)}
@@ -115,7 +139,7 @@ export function EventsGallery() {
                     <img
                       src={event.src}
                       alt={event.alt}
-                      className="h-80 w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+                      className="h-64 w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04] sm:h-80"
                       loading="lazy"
                       decoding="async"
                     />
@@ -168,13 +192,14 @@ export function EventsGallery() {
             variants={containerVariants}
             initial="hidden"
             animate={photosInView ? 'visible' : 'hidden'}
-            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
+            className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-3 sm:grid sm:gap-5 sm:overflow-visible sm:pb-0 sm:snap-none sm:grid-cols-2 lg:grid-cols-3"
           >
             {fieldPhotos.map((src, i) => (
               <motion.div
                 key={src}
                 variants={cardVariants}
                 whileHover={{ y: -6, transition: { duration: 0.3 } }}
+                className="min-w-[84vw] snap-center sm:min-w-0"
               >
                 <button
                   type="button"
@@ -186,7 +211,7 @@ export function EventsGallery() {
                     <img
                       src={src}
                       alt={`Kadima field photo ${i + 1}`}
-                      className="h-64 w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
+                      className="h-56 w-full object-cover transition-transform duration-700 group-hover:scale-[1.05] sm:h-64"
                       loading="lazy"
                       decoding="async"
                     />
@@ -207,7 +232,7 @@ export function EventsGallery() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/92 p-4 backdrop-blur-sm"
+            className="fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto bg-black/92 p-4 pt-20 backdrop-blur-sm sm:items-center sm:pt-4"
             onClick={() => setLightbox(null)}
           >
             <motion.img
@@ -217,7 +242,7 @@ export function EventsGallery() {
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.88, opacity: 0 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="max-h-[90vh] w-auto max-w-full rounded-2xl shadow-[0_32px_80px_rgba(0,0,0,0.6)]"
+              className="max-h-[85vh] w-full max-w-[min(100vw-2rem,960px)] rounded-2xl object-contain shadow-[0_32px_80px_rgba(0,0,0,0.6)]"
               onClick={(e) => e.stopPropagation()}
             />
             <motion.button
@@ -228,7 +253,7 @@ export function EventsGallery() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ delay: 0.15 }}
-              className="absolute right-5 top-5 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/20 transition hover:bg-white/20"
+              className="fixed right-4 top-4 inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full bg-white/10 text-white ring-1 ring-white/20 transition hover:bg-white/20 sm:right-5 sm:top-5"
             >
               <X size={22} />
             </motion.button>
