@@ -33,6 +33,19 @@ export function Navbar() {
     };
   }, [isMobileMenuOpen]);
 
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [isMobileMenuOpen]);
+
   const closeMenu = () => setIsMobileMenuOpen(false);
 
   return (
@@ -122,20 +135,23 @@ export function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.24 }}
               className="fixed inset-0 z-40 bg-primary/35 backdrop-blur-[2px] md:hidden"
               onClick={closeMenu}
               aria-label="Close mobile menu backdrop"
             />
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: -18, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -14, scale: 0.98 }}
+              transition={{ duration: 0.26, ease: [0.16, 1, 0.3, 1] }}
               className="relative z-50 border-t border-primary/10 bg-bg-light/98 px-4 pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-3 shadow-[0_16px_30px_rgba(24,18,37,0.12)] md:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile navigation menu"
             >
-              <div className="container-shell rounded-2xl border border-primary/10 bg-white/90 p-3 shadow-sm">
-                <div className="mb-2 flex items-center gap-3 rounded-xl bg-primary/[0.03] p-2.5">
+              <div className="container-shell rounded-2xl border border-primary/10 bg-white/95 p-3 shadow-sm">
+                <div className="mb-3 flex items-center gap-3 rounded-xl bg-primary/[0.03] p-3">
                   <span className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-accent/60 bg-gradient-to-br from-white via-bg-light to-amber-50 p-1 shadow-sm">
                     <img
                       src="https://github.com/user-attachments/assets/3e627728-3898-4039-9828-2692920556ab"
@@ -145,29 +161,54 @@ export function Navbar() {
                       decoding="async"
                     />
                   </span>
-                  <span className="text-sm font-semibold tracking-wide text-primary">Kadima Concierge</span>
+                  <div className="flex flex-col">
+                    <span className="text-sm font-semibold tracking-wide text-primary">Kadima Concierge</span>
+                    <span className="text-xs text-primary/55">Quick navigation</span>
+                  </div>
                 </div>
-                <div className="flex flex-col gap-2">
+                <motion.div
+                  className="flex flex-col gap-2"
+                  initial="hidden"
+                  animate="visible"
+                  variants={{
+                    hidden: {},
+                    visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
+                  }}
+                >
                   {navLinks.map((link) => {
                     const active = pathname === link.href;
                     return (
-                      <Link
+                      <motion.div
                         key={link.href}
-                        to={link.href}
-                        onClick={closeMenu}
-                        aria-current={active ? 'page' : undefined}
-                        className={`min-h-[50px] rounded-xl px-4 py-3 text-base font-semibold ${
-                          active ? 'bg-primary text-white' : 'text-primary/85 hover:bg-primary/6'
-                        }`}
+                        variants={{
+                          hidden: { opacity: 0, x: 12 },
+                          visible: { opacity: 1, x: 0, transition: { duration: 0.25 } },
+                        }}
                       >
-                        {link.label}
-                      </Link>
+                        <Link
+                          to={link.href}
+                          onClick={closeMenu}
+                          aria-current={active ? 'page' : undefined}
+                          className={`flex min-h-[52px] items-center rounded-xl px-4 py-3 text-base font-semibold transition-colors ${
+                            active ? 'bg-primary text-white' : 'text-primary/85 hover:bg-primary/6'
+                          }`}
+                        >
+                          {link.label}
+                        </Link>
+                      </motion.div>
                     );
                   })}
-                  <Link to="/donate" onClick={closeMenu} className="btn-base btn-primary mt-1 w-full">
-                    Donate now
-                  </Link>
-                </div>
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0, x: 12 },
+                      visible: { opacity: 1, x: 0, transition: { duration: 0.25 } },
+                    }}
+                  >
+                    <Link to="/donate" onClick={closeMenu} className="btn-base btn-primary mt-2 w-full">
+                      Donate now
+                    </Link>
+                  </motion.div>
+                </motion.div>
               </div>
             </motion.div>
           </>
