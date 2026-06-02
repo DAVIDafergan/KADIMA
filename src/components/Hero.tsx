@@ -1,124 +1,149 @@
-import { motion } from 'motion/react';
-import { ArrowRight, ShieldCheck, Truck, Users } from 'lucide-react';
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react';
+import { ArrowRight, HeartHandshake, ShieldCheck, Sparkles } from 'lucide-react';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 
-const trustPoints = [
-  { icon: ShieldCheck, label: 'Life-saving protective gear' },
-  { icon: Truck, label: 'Direct field delivery' },
-  { icon: Users, label: 'Backed by global community donors' },
+const trustCards = [
+  { icon: ShieldCheck, label: 'Rapid protective gear delivery' },
+  { icon: HeartHandshake, label: 'Direct support for soldiers and families' },
+  { icon: Sparkles, label: 'Transparent impact powered by donors' },
+];
+
+const particles = [
+  { left: '8%', top: '22%', size: 4, delay: 0.2 },
+  { left: '15%', top: '72%', size: 3, delay: 0.6 },
+  { left: '24%', top: '40%', size: 2, delay: 1.1 },
+  { left: '36%', top: '16%', size: 4, delay: 1.7 },
+  { left: '43%', top: '62%', size: 3, delay: 0.9 },
+  { left: '55%', top: '28%', size: 2, delay: 1.3 },
+  { left: '66%', top: '78%', size: 4, delay: 0.4 },
+  { left: '74%', top: '35%', size: 3, delay: 1.5 },
+  { left: '86%', top: '56%', size: 2, delay: 0.8 },
+  { left: '92%', top: '18%', size: 3, delay: 1.9 },
 ];
 
 export function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end start'],
+  });
+
+  const backgroundY = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : 120]);
+  const backgroundScale = useTransform(scrollYProgress, [0, 1], [1.05, prefersReducedMotion ? 1.05 : 1.18]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, prefersReducedMotion ? 0 : -70]);
+
   return (
-    <section className="section-dark relative overflow-hidden pt-32">
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute -left-24 top-24 h-56 w-56 rounded-full bg-accent/20 blur-3xl"
-        animate={{ y: [0, -16, 0], opacity: [0.55, 0.8, 0.55] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute -right-24 top-28 h-64 w-64 rounded-full bg-[#8f6ac6]/18 blur-3xl"
-        animate={{ y: [0, 18, 0], opacity: [0.4, 0.65, 0.4] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <div className="absolute inset-0 pointer-events-none">
+    <section ref={sectionRef} className="relative flex min-h-screen items-center overflow-hidden bg-[#0d0916] pt-28">
+      <motion.div aria-hidden className="absolute inset-0" style={{ y: backgroundY, scale: backgroundScale }}>
         <img
           src="https://arifuld.org/wp-content/uploads/2025/01/Kadima-Concierge.jpg"
           alt=""
-          className="h-full w-full object-cover opacity-18"
+          className="h-full w-full object-cover"
           loading="eager"
           decoding="async"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0f0b18]/70 via-[#0f0b18]/80 to-[#0f0b18]" />
-      </div>
+      </motion.div>
 
-      <div className="container-shell section relative z-10">
-        <div className="max-w-3xl">
-          <motion.p
-            className="heading-eyebrow text-accent"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Kadima Concierge · Since Oct 7, 2023
-          </motion.p>
-          <motion.h1
-            className="heading-xl text-white"
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          >
-            Delivering critical protection and support to IDF soldiers—fast, reliably, and with dignity.
-          </motion.h1>
-          <motion.p
-            className="mt-5 max-w-2xl text-lg text-muted-dark"
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          >
-            We fund and deliver tactical gear, emergency supplies, and wellness support for soldiers and communities across Israel.
-          </motion.p>
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-[radial-gradient(circle_at_18%_15%,rgba(232,188,116,0.36),transparent_42%),radial-gradient(circle_at_75%_25%,rgba(143,106,198,0.28),transparent_42%),linear-gradient(180deg,rgba(7,5,12,0.56)_0%,rgba(7,5,12,0.9)_58%,rgba(7,5,12,0.98)_100%)]"
+      />
 
-          <motion.div
-            className="mt-7 flex flex-col gap-3 sm:flex-row"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
+      {!prefersReducedMotion && (
+        <div aria-hidden className="pointer-events-none absolute inset-0">
+          {particles.map((particle) => (
+            <motion.span
+              key={`${particle.left}-${particle.top}`}
+              className="absolute rounded-full bg-white/40"
+              style={{
+                left: particle.left,
+                top: particle.top,
+                width: particle.size,
+                height: particle.size,
+              }}
+              animate={{ y: [0, -16, 0], opacity: [0.22, 0.9, 0.22] }}
+              transition={{ duration: 4.8, delay: particle.delay, repeat: Infinity, ease: 'easeInOut' }}
+            />
+          ))}
+        </div>
+      )}
+
+      <motion.div className="container-shell relative z-10 pb-14" style={{ y: contentY }}>
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mx-auto max-w-3xl text-center"
+        >
+          <p className="heading-eyebrow text-accent">Kadima Concierge · Since Oct 7, 2023</p>
+          <h1 className="heading-xl text-white">Stand with Israel’s defenders when every second matters.</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-base text-muted-dark sm:text-lg">
+            Funding critical gear, field essentials, and frontline resilience with speed and dignity.
+          </p>
+
+          <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
             <a
               href="https://my.israelgives.org/en/fundme/kadima_concierge"
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-base btn-primary w-full sm:w-auto"
+              className="btn-base btn-primary w-full sm:w-auto sm:min-w-[168px]"
             >
-              Donate now
+              Donate
             </a>
-            <Link to="/about" className="btn-base btn-secondary w-full sm:w-auto">
-              Learn our mission <ArrowRight size={15} />
+            <Link to="/about" className="btn-base btn-secondary w-full sm:w-auto sm:min-w-[168px]">
+              Learn More <ArrowRight size={15} />
             </Link>
-          </motion.div>
+          </div>
+        </motion.div>
 
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: {},
+            visible: { transition: { staggerChildren: 0.12, delayChildren: 0.26 } },
+          }}
+          className="mt-8 grid gap-3 sm:grid-cols-3"
+        >
+          {trustCards.map(({ icon: Icon, label }) => (
+            <motion.article
+              key={label}
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+              }}
+              className="rounded-2xl border border-white/25 bg-white/10 p-4 text-left shadow-[0_24px_50px_rgba(9,8,16,0.35)] backdrop-blur-xl"
+            >
+              <Icon size={18} className="text-accent" />
+              <p className="mt-2 text-sm text-white/90">{label}</p>
+            </motion.article>
+          ))}
+        </motion.div>
+      </motion.div>
+
+      {!prefersReducedMotion && (
+        <>
           <motion.div
-            className="mt-9 grid gap-3 sm:grid-cols-3"
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: {},
-              visible: { transition: { staggerChildren: 0.12, delayChildren: 0.38 } },
-            }}
+            aria-hidden
+            className="pointer-events-none absolute left-[7%] top-[24%] hidden rounded-2xl border border-white/20 bg-white/12 p-4 text-xs text-white/80 shadow-[0_20px_45px_rgba(6,5,12,0.36)] backdrop-blur-lg lg:block"
+            animate={{ y: [0, -14, 0], rotate: [-1, 1, -1] }}
+            transition={{ duration: 7.5, repeat: Infinity, ease: 'easeInOut' }}
           >
-            {trustPoints.map(({ icon: Icon, label }) => (
-              <motion.div
-                key={label}
-                className="surface-card-dark flex min-h-[84px] items-start gap-3 p-4"
-                variants={{
-                  hidden: { opacity: 0, y: 14 },
-                  visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
-                }}
-              >
-                <Icon size={18} className="mt-0.5 shrink-0 text-accent" />
-                <p className="text-sm text-muted-dark">{label}</p>
-              </motion.div>
-            ))}
+            24/7 direct procurement
           </motion.div>
-        </div>
-      </div>
-
-      <motion.div
-        className="mx-auto mb-3 mt-2 h-10 w-[1px] bg-gradient-to-b from-transparent via-accent to-transparent"
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 2.2, repeat: Infinity }}
-      />
-      <motion.p
-        className="pb-4 text-center text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-accent/70"
-        animate={{ opacity: [0.45, 0.9, 0.45] }}
-        transition={{ duration: 2.2, repeat: Infinity }}
-      >
-        Scroll to discover
-      </motion.p>
+          <motion.div
+            aria-hidden
+            className="pointer-events-none absolute right-[8%] top-[32%] hidden rounded-2xl border border-white/20 bg-white/10 p-4 text-xs text-white/80 shadow-[0_20px_45px_rgba(6,5,12,0.36)] backdrop-blur-lg lg:block"
+            animate={{ y: [0, 16, 0], rotate: [1, -1, 1] }}
+            transition={{ duration: 8.2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            Community-backed missions
+          </motion.div>
+        </>
+      )}
     </section>
   );
 }
